@@ -719,11 +719,16 @@ body { font-size: 1.0625rem; }
 .td-form :is(input, textarea):user-invalid { border-color: #dc2626; }
 
 /* ---------- Motion: search dialog, mobile menu, sidebar groups */
+/* Nova's own dialog transitions keep the closed dialog on screen for another
+   300 ms in Safari, which reads as lag. Ours replace them. */
+site-search dialog,
+site-search dialog::backdrop { transition: none !important; animation: none !important; }
+
 @media (prefers-reduced-motion: no-preference) {
-  site-search dialog[open] { animation: td-dialog-in 220ms cubic-bezier(0.2, 0.8, 0.2, 1) both; }
-  site-search dialog[open]::backdrop { animation: td-backdrop-in 220ms ease-out both; }
-  site-search dialog[data-closing] { animation: td-dialog-out 180ms ease-in both; }
-  site-search dialog[data-closing]::backdrop { animation: td-backdrop-out 180ms ease-in both; }
+  site-search dialog[open] { animation: td-dialog-in 220ms cubic-bezier(0.2, 0.8, 0.2, 1) both !important; }
+  site-search dialog[open]::backdrop { animation: td-backdrop-in 220ms ease-out both !important; }
+  site-search dialog[open][data-closing] { animation: td-dialog-out 140ms ease-in both !important; }
+  site-search dialog[open][data-closing]::backdrop { animation: td-backdrop-out 140ms ease-in both !important; }
 
   @media (max-width: 50rem) {
     #starlight__sidebar {
