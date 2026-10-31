@@ -24,7 +24,7 @@ export default defineConfig({
     starlight({
       title: 'Code Collective',
       description: 'Help centers for Code Collective Shopify themes and apps.',
-      logo: { light: './src/assets/logo.svg', dark: './src/assets/logo-dark.svg' },
+      logo: { src: './src/assets/cc-mark.svg' },
       favicon: '/favicon.svg',
       customCss: ['@fontsource-variable/inter', './src/styles/custom.css'],
       lastUpdated: true,

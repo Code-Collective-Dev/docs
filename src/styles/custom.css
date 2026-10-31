@@ -80,7 +80,7 @@ header[class*='fixed'] {
 
 .td-header__title .site-title { gap: 0.6rem; }
 .td-header__title .site-title span { font-size: 1.0625rem; font-weight: 650; letter-spacing: -0.01em; }
-.td-header__title .site-title img { height: 1.6rem; width: auto; }
+.td-header__title .site-title img { height: 1.75rem; width: auto; }
 
 .td-tabs {
   display: flex;
@@ -527,9 +527,9 @@ starlight-toc a[aria-current='true'] { color: var(--td-accent) !important; font-
 .td-preset img {
   display: block;
   width: 100%;
-  aspect-ratio: 16 / 10;
+  aspect-ratio: 1425 / 823;
   object-fit: cover;
-  object-position: top;
+  object-position: top center;
   border-bottom: 1px solid var(--td-line);
 }
 
