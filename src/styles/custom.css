@@ -581,3 +581,18 @@ starlight-toc a[aria-current='true'] { color: var(--td-accent) !important; font-
 .td-hub .td-hero h1 { max-width: none; }
 .td-hub .td-presets,
 .td-hub .td-grid { grid-template-columns: repeat(auto-fill, minmax(18rem, 1fr)); }
+
+.td-app { flex-direction: row; align-items: center; gap: 1rem; }
+.td-app__logo {
+  display: grid;
+  place-items: center;
+  flex: none;
+  width: 3.5rem;
+  height: 3.5rem;
+  border-radius: 14px;
+  background: var(--td-panel);
+  border: 1px solid var(--td-line);
+}
+.td-app__logo { overflow: hidden; background: #fff; }
+.td-app__logo img { width: 100%; height: 100%; object-fit: contain; }
+.td-app__text { display: flex; flex-direction: column; gap: 0.2rem; }

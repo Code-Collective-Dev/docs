@@ -7,6 +7,7 @@ lastUpdated: false
 
 import { Image } from 'astro:assets';
 import tandem from '../../assets/shots/preset-halden.jpg';
+import launchFlow from '../../assets/launch-flow.svg';
 
 <div class="td-home td-hub not-content">
   <section class="td-hero">
@@ -21,6 +22,6 @@ import tandem from '../../assets/shots/preset-halden.jpg';
 
   <p class="td-section-label">Apps</p>
   <div class="td-grid">
-    <a class="td-card" href="https://code-collective.gitbook.io/launch-flow"><strong>Launch Flow</strong><span>Read the Launch Flow docs</span></a>
+    <a class="td-card td-app" href="https://code-collective.gitbook.io/launch-flow"><span class="td-app__logo"><Image src={launchFlow} alt="" width={40} height={40} /></span><span class="td-app__text"><strong>Launch Flow</strong><span>Read the Launch Flow docs</span></span></a>
   </div>
 </div>
