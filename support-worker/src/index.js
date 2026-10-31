@@ -61,7 +61,7 @@ export default {
     const attachments = [];
     for (const f of files) {
       if (!ALLOWED_TYPES.test(f.type)) return json({ error: `${f.name} isn't an image, video or PDF.` }, 400, cors);
-      attachments.push({ filename: f.name.slice(0, 120), content: toBase64(await f.arrayBuffer()) });
+      attachments.push({ filename: f.name.slice(0, 120), content: toBase64(await f.arrayBuffer()), size: f.size });
     }
 
     const subjectLine = `[${data.theme}] ${data.subject || firstWords(data.message)}`;
@@ -72,16 +72,21 @@ export default {
       reply_to: data.email,
       subject: subjectLine,
       text: [
+        `New ${data.theme} support request. Reply by ${replyBy(new Date())}.`,
+        '',
         `Name: ${data.name}`,
         `Email: ${data.email}`,
-        `Store: ${data.store}`,
+        `Store: ${storeUrl(data.store)}`,
         `Theme: ${data.theme}`,
         `Subject: ${data.subject || '(none)'}`,
-        `Attachments: ${attachments.length}`,
+        `Attachments: ${attachments.length ? attachments.map((a) => a.filename).join(', ') : 'none'}`,
         '',
         data.message,
+        '',
+        'Reply to this email to answer the merchant directly.',
       ].join('\n'),
-      attachments,
+      html: internalHtml(data, attachments, subjectLine),
+      attachments: attachments.map(({ filename, content }) => ({ filename, content })),
     });
     if (!toSupport.ok) return json({ error: 'We couldn\'t send your message. Please try again in a few minutes.' }, 502, cors);
 
@@ -180,6 +185,69 @@ Support, Monday to Friday<br>
 </td>
 </tr>
 </table>
+</td></tr>
+</table>
+</td></tr>
+</table>
+</body></html>`;
+}
+
+// One business day after `date`, skipping weekends.
+function replyBy(date) {
+  const d = new Date(date);
+  do d.setUTCDate(d.getUTCDate() + 1); while ([0, 6].includes(d.getUTCDay()));
+  return d.toLocaleDateString('en-US', { weekday: 'short', month: 'short', day: 'numeric', timeZone: 'UTC' });
+}
+
+function storeUrl(store) {
+  const s = store.trim().replace(/\/+$/, '');
+  return /^https?:\/\//i.test(s) ? s : `https://${s}`;
+}
+
+function adminUrl(store) {
+  const m = storeUrl(store).match(/^https?:\/\/([a-z0-9-]+)\.myshopify\.com/i);
+  return m ? `https://admin.shopify.com/store/${m[1].toLowerCase()}` : '';
+}
+
+function formatSize(bytes) {
+  return bytes > 1024 * 1024 ? `${(bytes / 1024 / 1024).toFixed(1)} MB` : `${Math.max(1, Math.round(bytes / 1024))} KB`;
+}
+
+function internalHtml(data, attachments, subjectLine) {
+  const font = "-apple-system, BlinkMacSystemFont, 'Segoe UI', Helvetica, Arial, sans-serif";
+  const store = storeUrl(data.store);
+  const admin = adminUrl(data.store);
+  const reply = `mailto:${encodeURIComponent(data.email)}?subject=${encodeURIComponent(`Re: ${subjectLine}`)}`;
+  const row = (label, value) => `<tr><td style="padding:8px 0;width:110px;color:#78716c;font-size:13px;vertical-align:top;">${label}</td><td style="padding:8px 0;color:#1c1917;font-size:14px;">${value}</td></tr>`;
+  const link = (href, text) => `<a href="${escapeHtml(href)}" style="color:#b8501f;text-decoration:none;">${escapeHtml(text)}</a>`;
+  const button = (href, text, primary) => `<a href="${escapeHtml(href)}" style="display:inline-block;margin:0 8px 8px 0;padding:10px 16px;border-radius:999px;font-size:14px;font-weight:600;text-decoration:none;${primary ? 'background:#1c1917;color:#ffffff;' : 'background:#ffffff;color:#1c1917;border:1px solid #d6d3d1;'}">${text}</a>`;
+  const files = attachments.length
+    ? attachments.map((a) => `${escapeHtml(a.filename)} <span style="color:#a8a29e;">(${formatSize(a.size)})</span>`).join('<br>')
+    : '<span style="color:#a8a29e;">None</span>';
+  return `<!doctype html>
+<html><body style="margin:0;padding:0;background:#f7f6f4;">
+<table role="presentation" width="100%" cellpadding="0" cellspacing="0" style="background:#f7f6f4;padding:32px 16px;">
+<tr><td align="center">
+<table role="presentation" width="100%" cellpadding="0" cellspacing="0" style="max-width:600px;background:#ffffff;border:1px solid #e7e5e4;border-radius:12px;font-family:${font};">
+<tr><td style="padding:28px 32px 0;">
+<p style="margin:0 0 6px;font-size:13px;font-weight:600;color:#b8501f;">New ${escapeHtml(data.theme)} support request</p>
+<h1 style="margin:0 0 6px;font-size:22px;line-height:1.3;color:#1c1917;">${escapeHtml(data.subject || firstWords(data.message))}</h1>
+<p style="margin:0 0 20px;font-size:14px;color:#57534e;">From ${escapeHtml(data.name)}. Reply by <strong style="color:#1c1917;">${replyBy(new Date())}</strong> to keep the one business day promise.</p>
+${button(reply, `Reply to ${escapeHtml(data.name.split(' ')[0])}`, true)}${button(store, 'Open store')}${admin ? button(admin, 'Open admin') : ''}
+</td></tr>
+<tr><td style="padding:20px 32px 0;">
+<table role="presentation" width="100%" cellpadding="0" cellspacing="0" style="border-top:1px solid #e7e5e4;border-bottom:1px solid #e7e5e4;">
+${row('Name', escapeHtml(data.name))}
+${row('Email', link(`mailto:${data.email}`, data.email))}
+${row('Store', link(store, store.replace(/^https?:\/\//, '')))}
+${row('Theme', escapeHtml(data.theme))}
+${row('Attachments', files)}
+</table>
+</td></tr>
+<tr><td style="padding:20px 32px 32px;">
+<p style="margin:0 0 8px;font-size:13px;color:#78716c;">Message</p>
+<div style="padding:14px 16px;border-radius:8px;background:#fafaf9;border:1px solid #f0efee;color:#1c1917;font-size:15px;line-height:1.6;">${escapeHtml(data.message).replace(/\n/g, '<br>')}</div>
+<p style="margin:20px 0 0;font-size:13px;color:#a8a29e;">Hitting reply answers ${escapeHtml(data.email)} directly. Screenshots are attached to this email.</p>
 </td></tr>
 </table>
 </td></tr>
