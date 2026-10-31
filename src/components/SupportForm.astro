@@ -5,17 +5,17 @@ import { SUPPORT_ENDPOINT } from '../site.mjs';
 <form class="td-form not-content" id="contact" data-endpoint={SUPPORT_ENDPOINT} enctype="multipart/form-data" novalidate>
   <div class="td-form__row">
     <label>
-      <span>Name</span>
-      <input name="name" type="text" autocomplete="name" required />
+      <span>Name<b class="td-req" aria-hidden="true">*</b></span>
+      <input name="name" type="text" autocomplete="name" required aria-required="true" />
     </label>
     <label>
-      <span>Email</span>
+      <span>Email<b class="td-req" aria-hidden="true">*</b></span>
       <input name="email" type="email" autocomplete="email" required />
     </label>
   </div>
   <div class="td-form__row">
     <label>
-      <span>Store URL</span>
+      <span>Store URL<b class="td-req" aria-hidden="true">*</b></span>
       <input name="store" type="text" inputmode="url" placeholder="storename.myshopify.com" required />
     </label>
     <label>
@@ -30,7 +30,7 @@ import { SUPPORT_ENDPOINT } from '../site.mjs';
     <input name="subject" type="text" maxlength="120" placeholder="Used as the email subject" />
   </label>
   <label>
-    <span>What's happening?</span>
+    <span>What's happening?<b class="td-req" aria-hidden="true">*</b></span>
     <textarea name="message" rows="7" required placeholder="What you expected, what happened instead, and which page or section it's on."></textarea>
   </label>
   <label class="td-form__file">
@@ -45,6 +45,7 @@ import { SUPPORT_ENDPOINT } from '../site.mjs';
   <div class="td-form__actions">
     <button type="submit" class="td-btn td-btn--primary">Send message</button>
     <p class="td-form__status" role="status" aria-live="polite"></p>
+    <p class="td-form__note"><b class="td-req" aria-hidden="true">*</b> Required</p>
   </div>
 </form>
 
