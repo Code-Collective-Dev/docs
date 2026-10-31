@@ -1,0 +1,96 @@
+---
+import { SUPPORT_ENDPOINT } from '../site.mjs';
+---
+
+<form class="td-form not-content" id="contact" data-endpoint={SUPPORT_ENDPOINT} enctype="multipart/form-data" novalidate>
+  <div class="td-form__row">
+    <label>
+      <span>Name</span>
+      <input name="name" type="text" autocomplete="name" required />
+    </label>
+    <label>
+      <span>Email</span>
+      <input name="email" type="email" autocomplete="email" required />
+    </label>
+  </div>
+  <div class="td-form__row">
+    <label>
+      <span>Store URL</span>
+      <input name="store" type="text" inputmode="url" placeholder="storename.myshopify.com" required />
+    </label>
+    <label>
+      <span>Theme</span>
+      <select name="theme">
+        <option>Tandem</option>
+      </select>
+    </label>
+  </div>
+  <label>
+    <span>Subject <em>Optional</em></span>
+    <input name="subject" type="text" maxlength="120" placeholder="Used as the email subject" />
+  </label>
+  <label>
+    <span>What's happening?</span>
+    <textarea name="message" rows="7" required placeholder="What you expected, what happened instead, and which page or section it's on."></textarea>
+  </label>
+  <label class="td-form__file">
+    <span>Screenshots <em>Optional, up to 5 files, 10 MB in total</em></span>
+    <input name="screenshots" type="file" multiple accept="image/*,video/mp4,video/quicktime,video/webm,application/pdf" />
+  </label>
+  <label class="td-form__trap" aria-hidden="true">
+    <span>Leave this empty</span>
+    <input name="website_url" type="text" tabindex="-1" autocomplete="off" />
+  </label>
+  <input type="hidden" name="started" />
+  <div class="td-form__actions">
+    <button type="submit" class="td-btn td-btn--primary">Send message</button>
+    <p class="td-form__status" role="status" aria-live="polite"></p>
+  </div>
+</form>
+
+<script>
+  const form = document.querySelector<HTMLFormElement>('#contact');
+  if (form) {
+    const status = form.querySelector<HTMLElement>('.td-form__status')!;
+    const button = form.querySelector<HTMLButtonElement>('button[type="submit"]')!;
+    form.querySelector<HTMLInputElement>('[name="started"]')!.value = String(Date.now());
+
+    form.addEventListener('submit', async (event) => {
+      event.preventDefault();
+      status.className = 'td-form__status';
+      if (!form.checkValidity()) {
+        form.reportValidity();
+        return;
+      }
+      const files = form.querySelector<HTMLInputElement>('[name="screenshots"]')!.files;
+      const total = files ? Array.from(files).reduce((n, f) => n + f.size, 0) : 0;
+      if (files && (files.length > 5 || total > 10 * 1024 * 1024)) {
+        status.textContent = 'Attach up to 5 files, 10 MB or less in total.';
+        status.classList.add('is-error');
+        return;
+      }
+      const endpoint = form.dataset.endpoint;
+      if (!endpoint) {
+        status.textContent = 'The form isn\'t connected yet. Please try again soon.';
+        status.classList.add('is-error');
+        return;
+      }
+      button.disabled = true;
+      status.textContent = 'Sending...';
+      try {
+        const res = await fetch(endpoint, { method: 'POST', body: new FormData(form) });
+        const body = await res.json().catch(() => ({}));
+        if (!res.ok) throw new Error(body.error || 'Something went wrong. Please try again.');
+        form.reset();
+        form.querySelector<HTMLInputElement>('[name="started"]')!.value = String(Date.now());
+        status.textContent = 'Thanks, your message is on its way. We\'ve emailed you a confirmation and will reply within one business day.';
+        status.classList.add('is-success');
+      } catch (error) {
+        status.textContent = (error as Error).message;
+        status.classList.add('is-error');
+      } finally {
+        button.disabled = false;
+      }
+    });
+  }
+</script>

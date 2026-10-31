@@ -1,0 +1,35 @@
+name: Deploy support form service
+
+on:
+  push:
+    branches: [main]
+    paths: ['support-worker/**', '.github/workflows/support-worker.yml']
+  workflow_dispatch:
+
+concurrency:
+  group: support-worker
+  cancel-in-progress: true
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    env:
+      READY: ${{ secrets.CLOUDFLARE_API_TOKEN != '' && secrets.CLOUDFLARE_ACCOUNT_ID != '' && secrets.RESEND_API_KEY != '' }}
+    steps:
+      - name: Skip until Cloudflare and Resend are connected
+        if: env.READY != 'true'
+        run: echo "Add CLOUDFLARE_API_TOKEN, CLOUDFLARE_ACCOUNT_ID and RESEND_API_KEY as repository secrets to deploy."
+      - uses: actions/checkout@v5
+        if: env.READY == 'true'
+      - name: Deploy
+        if: env.READY == 'true'
+        uses: cloudflare/wrangler-action@v3
+        with:
+          apiToken: ${{ secrets.CLOUDFLARE_API_TOKEN }}
+          accountId: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
+          workingDirectory: support-worker
+          wranglerVersion: '4.156.0'
+          secrets: |
+            RESEND_API_KEY
+        env:
+          RESEND_API_KEY: ${{ secrets.RESEND_API_KEY }}

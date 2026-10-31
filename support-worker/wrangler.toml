@@ -1,0 +1,11 @@
+name = "cc-support"
+main = "src/index.js"
+compatibility_date = "2026-10-01"
+workers_dev = true
+
+[vars]
+# Where support requests are delivered, and who the emails come from.
+# FROM_EMAIL must be on a domain verified in Resend.
+TO_EMAIL = "support@codecollective.io"
+FROM_EMAIL = "Code Collective Support <support@codecollective.io>"
+ALLOWED_ORIGINS = "https://docs.codecollective.io,http://localhost:4321"

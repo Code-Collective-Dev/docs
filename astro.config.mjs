@@ -29,7 +29,7 @@ export default defineConfig({
       customCss: ['@fontsource-variable/inter', './src/styles/custom.css'],
       lastUpdated: true,
       pagination: true,
-      social: [{ icon: 'email', label: 'Contact support', href: 'https://codecollective.io/themes/tandem/support' }],
+      social: [{ icon: 'email', label: 'Contact support', href: '/tandem/support/#contact' }],
       head: [{ tag: 'meta', attrs: { name: 'theme-color', content: '#fbfaf8' } }],
       components: { Header: './src/components/Header.astro', PageTitle: './src/components/PageTitle.astro' },
       plugins: [
