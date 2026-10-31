@@ -1,0 +1,38 @@
+---
+title: Quick order
+description: A bulk order table for wholesale customers.
+sidebar:
+  order: 8
+---
+
+import { Aside, Steps } from '@astrojs/starlight/components';
+
+Quick order lets wholesale customers add many products at once from one table, grouped by product type if you like. Their prices, quantity rules and case packs apply, and **Paste a list** lets them paste SKUs and quantities. Shoppers who aren't signed in see a message with a link to your application page.
+
+Assign the **page.quick-order** template to a page, then edit it in the theme editor.
+
+## Section settings
+
+| Setting | Type | What it does |
+| --- | --- | --- |
+| Color scheme | Color scheme | One of the schemes from Theme settings > Colors. |
+| Heading | Text | Leave empty to hide it. |
+| Text | Rich text | Supporting copy under the heading. |
+| **Products** | | |
+| Collection | Collection | Leave blank to list all products. Wholesale customers only see products in their B2B catalogs. |
+| Products per page | Slider | 10 to 50. |
+| Group by product type | On or off |  |
+| Show product images | On or off |  |
+| Show "Paste a list" | On or off | Buyers paste SKUs and quantities, for example from a spreadsheet, to fill in the order. |
+| **Order summary** | | |
+| Free shipping threshold | Number | Order amount for free shipping, in your store currency. Leave blank to hide the progress bar. |
+| Quote request page | Link | Shows a link to request a quote instead of ordering. |
+| **Banner** | | |
+| Text | Text | Supporting copy under the heading. |
+| Show banner to | Choice | Wholesale customers who haven't ordered yet / Every wholesale customer. |
+| Link label | Text |  |
+| Link | Link | A page, product, collection or web address. |
+| **Wholesale gate** | | |
+| Heading | Text | Leave empty to hide it. |
+| Text | Rich text | Supporting copy under the heading. |
+| Wholesale application page | Link |  |

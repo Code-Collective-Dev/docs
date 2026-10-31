@@ -1,0 +1,39 @@
+---
+title: Metafields
+description: Give each product its own color, highlights, facts and scores.
+sidebar:
+  order: 1
+---
+
+import { Steps } from '@astrojs/starlight/components';
+
+Metafields are extra fields on products, such as a care note or a roast level. Tandem reads them so each product page can show its own details without a separate template.
+
+## Create a metafield
+
+<Steps>
+
+1. Go to **Settings > Custom data > Products** and click **Add definition**.
+2. Give it a name. Shopify suggests a key such as `custom.care`; note it down.
+3. Choose the type from the table below, then save.
+4. Fill in the value on each product, at the bottom of the product page in your admin.
+5. In the theme editor, enter the key in the setting listed below.
+
+</Steps>
+
+## Metafields Tandem reads
+
+| Feature | Setting | Example key | Type |
+| --- | --- | --- | --- |
+| [Accent color](/tandem/guides/accent-color/) | Product information > Accent color metafield | `custom.accent` | Color |
+| [Highlights](/tandem/product-page/highlights/) | Highlights block > Metafield | `custom.care` | Single line text, list |
+| [Star rating](/tandem/guides/reviews/) | Filled in by your review app | `reviews.rating` | Rating |
+| Card subtitle | Theme settings > Motion and cards > Show subtitle | `custom.subtitle` | Single line text |
+| Key facts | Key facts block > Fact metafield | `custom.skin_concern` | Any; lists show as "Redness, Dryness" |
+| Taste scale score | Taste scale block > Score metafield | `custom.roast` | Integer, 1 to 5 |
+| Nutrition rows | Nutrition block > Rows metafield | `custom.nutrition` | Multi-line text |
+| Products in an article | Article > Products metafield | `custom.products` | Product list (on blog posts) |
+
+## Connect a dynamic source
+
+Text settings such as a collapsible row's content, a size chart's notes or a countdown's end date can also be connected to a metafield directly. Click the **Connect dynamic source** icon next to the setting and choose the metafield.

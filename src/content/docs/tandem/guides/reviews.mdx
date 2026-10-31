@@ -1,0 +1,23 @@
+---
+title: Ratings and reviews
+description: Show star ratings on product cards and product pages.
+sidebar:
+  order: 3
+---
+
+import { Steps } from '@astrojs/starlight/components';
+
+Tandem shows stars from the standard Shopify rating metafields, so it works with most review apps, including Judge.me, Okendo, Yotpo and Shopify's Product Reviews.
+
+<Steps>
+
+1. Install a review app and turn on its option to sync ratings to Shopify metafields (`reviews.rating` and `reviews.rating_count`).
+2. Turn on **Show star rating** in **Theme settings > Motion and cards** for product cards.
+3. Add the **Rating** block to the product page. Set **Reviews section ID** to the ID of the app's review widget so clicking the stars scrolls to it.
+4. Add the app's review widget to the product page as an **App** block or in the **Apps** section.
+
+</Steps>
+
+## Without an app
+
+Create two product metafields, **Rating** (`custom.rating`, type Rating) and **Rating count** (`custom.rating_count`, type Integer), and fill them in by hand. Products without a rating show no stars.

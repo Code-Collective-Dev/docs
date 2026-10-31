@@ -1,0 +1,26 @@
+---
+title: Set up B2B in your admin
+description: Create companies, catalogs and quantity rules for wholesale customers.
+sidebar:
+  order: 2
+---
+
+import { Steps, Aside } from '@astrojs/starlight/components';
+
+<Steps>
+
+1. Go to **Customers > Companies** and click **Add company**. Add a location with its shipping and billing address.
+2. Add the buyer as a contact of the company, using the email they'll sign in with.
+3. Create a **catalog** for the company location, with a price list (for example 40% off retail) and the products it can buy.
+4. Optional: on the catalog, set **quantity rules** (minimum, maximum and increment, such as a case of 6) and **volume pricing** (lower prices for larger quantities).
+5. Make sure customer accounts are on in **Settings > Customer accounts**, so buyers can sign in.
+
+</Steps>
+
+When the buyer signs in, Tandem shows their prices and rules straight away.
+
+<Aside type="tip">
+A customer tag alone doesn't make someone a wholesale customer in Tandem. They need to be a contact of a B2B company.
+</Aside>
+
+See Shopify's help on [companies](https://help.shopify.com/manual/b2b/companies) and [catalogs](https://help.shopify.com/manual/b2b/catalogs).

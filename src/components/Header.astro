@@ -1,0 +1,31 @@
+---
+import Search from 'virtual:starlight/components/Search';
+import SiteTitle from 'virtual:starlight/components/SiteTitle';
+import SocialIcons from 'virtual:starlight/components/SocialIcons';
+import ThemeSelect from 'virtual:starlight/components/ThemeSelect';
+import MobileMenuToggle from 'starlight-theme-nova/components/MobileMenuToggle.astro';
+import { topics } from '../topics.mjs';
+
+const { hasSidebar, id } = Astro.locals.starlightRoute;
+const parts = id.split('/');
+const inTandem = parts[0] === 'tandem';
+const first = inTandem ? parts[1] : parts[0];
+---
+
+<div class="td-header">
+  <div class="td-header__title">
+    <SiteTitle />
+    {inTandem && <a class="td-product" href="/tandem/">Tandem</a>}
+  </div>
+  <nav class="td-tabs" aria-label="Tandem docs">
+    {inTandem && topics.map((t) => (
+      <a href={t.link} aria-current={t.dirs.includes(first) ? 'true' : undefined}>{t.label}</a>
+    ))}
+  </nav>
+  <div class="td-header__search print:hidden"><Search /></div>
+  <div class="td-header__icons print:hidden">
+    <SocialIcons />
+    <ThemeSelect />
+  </div>
+  {hasSidebar && <div class="td-header__menu print:hidden"><MobileMenuToggle /></div>}
+</div>

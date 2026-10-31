@@ -1,0 +1,66 @@
+---
+title: Tandem help center
+description: Set up and customize Tandem, the Shopify theme for selling to shoppers and wholesale buyers from one store.
+template: splash
+lastUpdated: false
+---
+
+import { Image } from 'astro:assets';
+import tandem from '../../../assets/shots/preset-tandem.jpg';
+import larder from '../../../assets/shots/preset-larder.jpg';
+import halden from '../../../assets/shots/preset-halden.jpg';
+
+export const I = {
+  rocket: '<path d="M4.5 16.5c-1.5 1.26-2 5-2 5s3.74-.5 5-2c.71-.84.7-2.13-.09-2.91a2.18 2.18 0 0 0-2.91-.09Z"/><path d="m12 15-3-3a22 22 0 0 1 2-3.95A12.88 12.88 0 0 1 22 2c0 2.72-.78 7.5-6 11a22.35 22.35 0 0 1-4 2Z"/><path d="M9 12H4s.55-3.03 2-4c1.62-1.08 5 0 5 0"/><path d="M12 15v5s3.03-.55 4-2c1.08-1.62 0-5 0-5"/>',
+  sliders: '<line x1="4" x2="4" y1="21" y2="14"/><line x1="4" x2="4" y1="10" y2="3"/><line x1="12" x2="12" y1="21" y2="12"/><line x1="12" x2="12" y1="8" y2="3"/><line x1="20" x2="20" y1="21" y2="16"/><line x1="20" x2="20" y1="12" y2="3"/><line x1="2" x2="6" y1="14" y2="14"/><line x1="10" x2="14" y1="8" y2="8"/><line x1="18" x2="22" y1="16" y2="16"/>',
+  layout: '<rect width="18" height="18" x="3" y="3" rx="2"/><path d="M3 9h18"/><path d="M9 21V9"/>',
+  tag: '<path d="M12.586 2.586A2 2 0 0 0 11.172 2H4a2 2 0 0 0-2 2v7.172a2 2 0 0 0 .586 1.414l8.704 8.704a2.426 2.426 0 0 0 3.42 0l6.58-6.58a2.426 2.426 0 0 0 0-3.42z"/><circle cx="7.5" cy="7.5" r=".5" fill="currentColor"/>',
+  building: '<rect width="16" height="20" x="4" y="2" rx="2"/><path d="M9 22v-4h6v4"/><path d="M8 6h.01M16 6h.01M12 6h.01M12 10h.01M12 14h.01M16 10h.01M16 14h.01M8 10h.01M8 14h.01"/>',
+  database: '<ellipse cx="12" cy="5" rx="9" ry="3"/><path d="M3 5v14a9 3 0 0 0 18 0V5"/><path d="M3 12a9 3 0 0 0 18 0"/>',
+  filter: '<polygon points="22 3 2 3 10 12.46 10 19 14 21 14 12.46 22 3"/>',
+  help: '<circle cx="12" cy="12" r="10"/><path d="M9.09 9a3 3 0 0 1 5.83 1c0 2-3 3-3 3"/><path d="M12 17h.01"/>',
+};
+
+export const Card = ({ href, icon, title, text }) => (
+  <a class="td-card" href={href}>
+    <span class="td-card__icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" set:html={I[icon]} /></span>
+    <strong>{title}</strong>
+    <span>{text}</span>
+  </a>
+);
+
+<div class="td-home not-content">
+  <section class="td-hero">
+    <p class="td-hero__badge"><span>Version 1.0</span> Three presets, one theme for retail and wholesale</p>
+    <h1>Everything you need to run Tandem</h1>
+    <p class="td-hero__text">Guides for every section, setting and feature, from your first preset to wholesale pricing.</p>
+    <div class="td-hero__actions">
+      <a class="td-btn td-btn--primary" href="/tandem/getting-started/install/">Get started <span aria-hidden="true">&rarr;</span></a>
+      <a class="td-btn td-btn--ghost" href="/tandem/sections/hero/">Browse sections</a>
+    </div>
+  </section>
+
+  <p class="td-section-label">Start here</p>
+  <div class="td-grid">
+    <Card href="/tandem/getting-started/install/" icon="rocket" title="Install Tandem" text="Add the theme, set it up and publish." />
+    <Card href="/tandem/theme-settings/colors/" icon="sliders" title="Theme settings" text="Colors, fonts, shapes, cards and the cart." />
+    <Card href="/tandem/sections/hero/" icon="layout" title="Sections" text="Every section with its settings and blocks." />
+    <Card href="/tandem/product-page/overview/" icon="tag" title="Product page" text="Gallery, buy buttons and 25 product blocks." />
+    <Card href="/tandem/wholesale/overview/" icon="building" title="Wholesale and B2B" text="Trade prices, quick order and buy again." />
+    <Card href="/tandem/guides/metafields/" icon="database" title="Metafields" text="Per-product colors, highlights and scores." />
+    <Card href="/tandem/collections/filters/" icon="filter" title="Collection filters" text="Filters for price, options and metafields." />
+    <Card href="/tandem/faq/" icon="help" title="FAQ" text="Quick answers to common questions." />
+  </div>
+
+  <p class="td-section-label">Presets</p>
+  <div class="td-presets">
+    <a class="td-preset" href="/tandem/getting-started/presets/#tandem"><Image src={tandem} alt="The Tandem preset" widths={[480, 800]} sizes="(min-width: 60rem) 30vw, 100vw" /><div><strong>Tandem</strong><span>Beauty, skincare and wellness</span></div></a>
+    <a class="td-preset" href="/tandem/getting-started/presets/#larder"><Image src={larder} alt="The Larder preset" widths={[480, 800]} sizes="(min-width: 60rem) 30vw, 100vw" /><div><strong>Larder</strong><span>Coffee, food and pantry goods</span></div></a>
+    <a class="td-preset" href="/tandem/getting-started/presets/#halden"><Image src={halden} alt="The Halden preset" widths={[480, 800]} sizes="(min-width: 60rem) 30vw, 100vw" /><div><strong>Halden</strong><span>Homeware, ceramics and furniture</span></div></a>
+  </div>
+
+  <div class="td-help">
+    <div><strong>Can't find what you need?</strong><span>Search the docs with Ctrl K, or send us a message.</span></div>
+    <a class="td-btn td-btn--ghost" href="/tandem/support/">Contact support</a>
+  </div>
+</div>

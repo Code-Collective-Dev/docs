@@ -1,0 +1,26 @@
+---
+title: Code Collective docs
+description: Help centers for Code Collective's Shopify themes and apps.
+template: splash
+lastUpdated: false
+---
+
+import { Image } from 'astro:assets';
+import tandem from '../../assets/shots/preset-halden.jpg';
+
+<div class="td-home td-hub not-content">
+  <section class="td-hero">
+    <h1>Code Collective docs</h1>
+    <p class="td-hero__text">Guides and help for our Shopify themes and apps.</p>
+  </section>
+
+  <p class="td-section-label">Themes</p>
+  <div class="td-presets">
+    <a class="td-preset" href="/tandem/"><Image src={tandem} alt="Tandem theme" widths={[480, 800]} sizes="(min-width: 60rem) 30vw, 100vw" /><div><strong>Tandem</strong><span>Retail and wholesale in one Shopify theme</span></div></a>
+  </div>
+
+  <p class="td-section-label">Apps</p>
+  <div class="td-grid">
+    <a class="td-card" href="https://code-collective.gitbook.io/launch-flow"><strong>Launch Flow</strong><span>Read the Launch Flow docs</span></a>
+  </div>
+</div>

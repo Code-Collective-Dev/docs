@@ -1,0 +1,23 @@
+---
+title: Buy again
+description: Everything a signed-in customer has ordered before, ready to add again.
+sidebar:
+  order: 9
+---
+
+import { Aside, Steps } from '@astrojs/starlight/components';
+
+Buy again lists everything a signed-in customer has ordered, newest first, with the last quantity ready to add. Wholesale customers see their own prices and quantity rules. Below the list are their past orders, each with a reorder button.
+
+Assign the **page.reorder** template to a page. It works for retail customers too.
+
+## Section settings
+
+| Setting | Type | What it does |
+| --- | --- | --- |
+| Heading | Text | Leave empty to hide it. |
+| Text | Rich text | Supporting copy under the heading. |
+| Orders to look through | Slider | 5 to 50. The most recent orders are used. |
+| Show past orders | On or off |  |
+| Color scheme | Color scheme | One of the schemes from Theme settings > Colors. |
+| Card color scheme | Color scheme | The scheme used inside the cards, so they can stand out from the section background. |

@@ -1,0 +1,44 @@
+---
+title: Wholesale portal
+description: A home base for signed-in wholesale customers.
+sidebar:
+  order: 6
+---
+
+import { Aside, Steps } from '@astrojs/starlight/components';
+
+The wholesale portal shows signed-in wholesale customers their company and location, shortcuts to quick order, buy again and their account, and their latest orders with a one-click reorder. It shows nothing to other shoppers, so it can sit above your sign-up content on the same page. In the theme editor it shows a preview.
+
+## Add the section
+
+<Steps>
+
+1. Open **Online Store > Themes > Customize** and go to a page using the page.trade template.
+2. Click **Add section** and choose **Wholesale portal**.
+3. Fill in the content, then click **Save**.
+
+</Steps>
+
+## Section settings
+
+| Setting | Type | What it does |
+| --- | --- | --- |
+| Small heading | Text | A short line above the heading, such as a category or a promise. |
+| Heading | Text | Used when the customer has no first name. Otherwise it greets them by name. |
+| Text | Rich text | Supporting copy under the heading. |
+| Show recent orders | On or off |  |
+| Orders to show | Slider | 1 to 10. |
+| Buy again page | Page | A page using the buy again template, linked from the recent orders. |
+| Color scheme | Color scheme | One of the schemes from Theme settings > Colors. |
+| Card color scheme | Color scheme | The scheme used inside the cards, so they can stand out from the section background. |
+
+## Blocks
+
+### Shortcut
+
+| Setting | Type | What it does |
+| --- | --- | --- |
+| Icon | Choice | List / Reorder / Receipt / Account / Box / Delivery / Chat / Gift. |
+| Heading | Text | Leave empty to hide it. |
+| Text | Text | Supporting copy under the heading. |
+| Button link | Link | Leave empty to link to the customer's account, where they see orders and invoices. |

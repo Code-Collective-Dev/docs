@@ -1,0 +1,25 @@
+---
+import { topics } from '../topics.mjs';
+
+const route = Astro.locals.starlightRoute;
+const { title, description } = route.entry.data;
+const parts = route.id.split('/');
+const first = parts[0] === 'tandem' ? parts[1] : parts[0];
+const topic = topics.find((t) => t.dirs.includes(first));
+const LABELS = {
+  'getting-started': 'Getting started', 'theme-settings': 'Theme settings', global: 'Header and footer',
+  sections: 'Sections', 'product-page': 'Product page', collections: 'Collections and search', pages: 'Pages and templates',
+  wholesale: 'Wholesale and B2B', guides: 'Guides', faq: 'Help', changelog: 'Help', support: 'Help',
+};
+const eyebrow = LABELS[first] ?? topic?.label;
+const splash = route.entry.data.template === 'splash';
+---
+
+{!splash && (
+
+<div class="td-title">
+  {eyebrow && <p class="td-title__eyebrow">{eyebrow}</p>}
+  <h1 id="_top">{title}</h1>
+  {description && <p class="td-title__lede">{description}</p>}
+</div>
+)}

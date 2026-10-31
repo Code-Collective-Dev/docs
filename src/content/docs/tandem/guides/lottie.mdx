@@ -1,0 +1,26 @@
+---
+title: Scroll story with Lottie
+description: Play a Lottie animation as shoppers scroll.
+sidebar:
+  order: 4
+---
+
+import { Steps, Aside } from '@astrojs/starlight/components';
+
+The [Scroll story](/tandem/sections/scroll-story/) section can play a Lottie animation that moves with the scroll: scroll down and it plays forward, scroll up and it rewinds.
+
+<Steps>
+
+1. Export your animation as a Lottie `.json` file, for example from After Effects with the Bodymovin plugin, or download one from LottieFiles.
+2. In your admin, go to **Content > Files** and upload the file. Copy its link.
+3. In the theme editor, select the scroll story and set **Visual** to **Lottie**.
+4. Paste the link into **Lottie file link** and choose the **Playback**.
+5. Add a **Still image** and an **Animation description** for shoppers who prefer reduced motion and for screen readers.
+
+</Steps>
+
+<Aside type="tip">
+Keep the file small: under 1 MB is a good target. Animations with embedded photos are larger than pure vector animations.
+</Aside>
+
+The Lottie player only loads when the section comes into view, so it doesn't slow down the rest of the page.

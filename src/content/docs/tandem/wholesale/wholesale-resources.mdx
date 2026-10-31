@@ -1,0 +1,43 @@
+---
+title: Wholesale resources
+description: Downloads for stockists, such as line sheets and product images.
+sidebar:
+  order: 7
+---
+
+import { Aside, Steps } from '@astrojs/starlight/components';
+
+Wholesale resources lists downloads for stockists: line sheets, product images, ingredient and compliance sheets. Upload each file in **Content > Files** and paste its link into a **Resource** block. It shows to wholesale customers only by default.
+
+## Add the section
+
+<Steps>
+
+1. Open **Online Store > Themes > Customize** and go to any page.
+2. Click **Add section** and choose **Wholesale resources**.
+3. Fill in the content, then click **Save**.
+
+</Steps>
+
+## Section settings
+
+| Setting | Type | What it does |
+| --- | --- | --- |
+| Heading | Text | Leave empty to hide it. |
+| Text | Rich text | Supporting copy under the heading. |
+| Show to | Choice | Everyone / Everyone except wholesale customers / Wholesale customers only. Wholesale customers are shoppers signed in to a B2B company. The section always shows in the theme editor. |
+| Color scheme | Color scheme | One of the schemes from Theme settings > Colors. |
+| Card color scheme | Color scheme | The scheme used inside the cards, so they can stand out from the section background. |
+
+## Blocks
+
+You can add up to 12 blocks.
+
+### Resource
+
+| Setting | Type | What it does |
+| --- | --- | --- |
+| Icon | Choice | Document / Images / Archive / List. |
+| Heading | Text | Leave empty to hide it. |
+| Details | Text | File type, size or date, such as "PDF, updated October 2026". |
+| File | Link | Upload the file under Content > Files, copy its link and paste it here. |
