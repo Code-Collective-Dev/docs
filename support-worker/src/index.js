@@ -102,7 +102,10 @@ export default {
         'Your message:',
         data.message.split('\n').map((l) => `> ${l}`).join('\n'),
         '',
+        '--',
         'Code Collective',
+        'Support, Monday to Friday',
+        'https://codecollective.io',
       ].join('\n'),
       html: confirmationHtml(firstName, data),
     });
@@ -167,7 +170,16 @@ function confirmationHtml(firstName, data) {
 <div style="margin:0 0 28px;padding:12px 16px;border-left:3px solid #e7e5e4;background:#fafaf9;color:#44403c;font-size:15px;">${message}</div>
 </td></tr>
 <tr><td style="padding:0 32px 32px;">
-<a href="https://codecollective.io" style="text-decoration:none;"><img src="https://docs.codecollective.io/email/cc-logo.png" width="32" height="48" alt="Code Collective" style="display:block;border:0;font-family:${font};font-size:14px;font-weight:600;color:#1c1917;"></a>
+<table role="presentation" cellpadding="0" cellspacing="0" style="border-top:1px solid #e7e5e4;padding-top:20px;width:100%;">
+<tr>
+<td width="44" valign="top" style="padding-top:20px;"><a href="https://codecollective.io" style="text-decoration:none;"><img src="https://docs.codecollective.io/email/cc-logo.png" width="28" height="42" alt="Code Collective" style="display:block;border:0;"></a></td>
+<td valign="top" style="padding-top:20px;font-family:${font};font-size:14px;line-height:1.5;color:#44403c;">
+<strong style="color:#1c1917;font-size:15px;">Code Collective</strong><br>
+Support, Monday to Friday<br>
+<a href="https://codecollective.io" style="color:#b8501f;text-decoration:none;">codecollective.io</a> &middot; <a href="https://docs.codecollective.io/tandem/" style="color:#b8501f;text-decoration:none;">${escapeHtml(data.theme)} docs</a>
+</td>
+</tr>
+</table>
 </td></tr>
 </table>
 </td></tr>
