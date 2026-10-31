@@ -26,7 +26,7 @@ export default defineConfig({
       description: 'Help centers for Code Collective Shopify themes and apps.',
       logo: { src: './src/assets/cc-mark.svg' },
       favicon: '/favicon.svg',
-      customCss: ['@fontsource-variable/inter', './src/styles/custom.css'],
+      customCss: ['@fontsource-variable/plus-jakarta-sans', '@fontsource-variable/source-sans-3', '@fontsource-variable/jetbrains-mono', './src/styles/custom.css'],
       lastUpdated: true,
       pagination: true,
       social: [{ icon: 'email', label: 'Contact support', href: '/tandem/support/#contact' }],

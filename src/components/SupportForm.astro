@@ -86,7 +86,8 @@ import { SUPPORT_ENDPOINT } from '../site.mjs';
         status.textContent = 'Thanks, your message is on its way. We\'ve emailed you a confirmation and will reply within one business day.';
         status.classList.add('is-success');
       } catch (error) {
-        status.textContent = (error as Error).message;
+        const reason = error instanceof TypeError ? 'We couldn\'t reach our server.' : (error as Error).message;
+        status.textContent = `${reason} If it keeps happening, email us at support@codecollective.io.`;
         status.classList.add('is-error');
       } finally {
         button.disabled = false;

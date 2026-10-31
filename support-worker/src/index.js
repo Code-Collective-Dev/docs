@@ -86,13 +86,14 @@ export default {
     if (!toSupport.ok) return json({ error: 'We couldn\'t send your message. Please try again in a few minutes.' }, 502, cors);
 
     // The confirmation is best effort: the request already reached support.
+    const firstName = data.name.split(' ')[0];
     await send(env, {
       from: env.FROM_EMAIL,
       to: [data.email],
       reply_to: env.TO_EMAIL,
       subject: `We've got your message: ${subjectLine}`,
       text: [
-        `Hi ${data.name.split(' ')[0]},`,
+        `Hi ${firstName},`,
         '',
         `Thanks for getting in touch about ${data.theme}. We've received your message and will reply within one business day, Monday to Friday.`,
         '',
@@ -103,6 +104,7 @@ export default {
         '',
         'Code Collective',
       ].join('\n'),
+      html: confirmationHtml(firstName, data),
     });
 
     return json({ ok: true }, 200, cors);
@@ -143,4 +145,32 @@ async function send(env, payload) {
 
 function json(body, status, headers) {
   return new Response(JSON.stringify(body), { status, headers: { ...headers, 'Content-Type': 'application/json' } });
+}
+
+function escapeHtml(text) {
+  return text.replace(/[&<>"']/g, (c) => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' })[c]);
+}
+
+function confirmationHtml(firstName, data) {
+  const font = "-apple-system, BlinkMacSystemFont, 'Segoe UI', Helvetica, Arial, sans-serif";
+  const message = escapeHtml(data.message).replace(/\n/g, '<br>');
+  return `<!doctype html>
+<html><body style="margin:0;padding:0;background:#f7f6f4;">
+<table role="presentation" width="100%" cellpadding="0" cellspacing="0" style="background:#f7f6f4;padding:32px 16px;">
+<tr><td align="center">
+<table role="presentation" width="100%" cellpadding="0" cellspacing="0" style="max-width:560px;background:#ffffff;border:1px solid #e7e5e4;border-radius:12px;">
+<tr><td style="padding:32px 32px 8px;font-family:${font};font-size:16px;line-height:1.6;color:#1c1917;">
+<p style="margin:0 0 16px;">Hi ${escapeHtml(firstName)},</p>
+<p style="margin:0 0 16px;">Thanks for getting in touch about ${escapeHtml(data.theme)}. We've received your message and will reply within one business day, Monday to Friday.</p>
+<p style="margin:0 0 24px;">In the meantime, the <a href="https://docs.codecollective.io/tandem/" style="color:#b8501f;">${escapeHtml(data.theme)} docs</a> might have your answer.</p>
+<p style="margin:0 0 8px;font-size:13px;color:#78716c;">Your message</p>
+<div style="margin:0 0 28px;padding:12px 16px;border-left:3px solid #e7e5e4;background:#fafaf9;color:#44403c;font-size:15px;">${message}</div>
+</td></tr>
+<tr><td style="padding:0 32px 32px;">
+<a href="https://codecollective.io" style="text-decoration:none;"><img src="https://docs.codecollective.io/email/cc-logo.png" width="32" height="48" alt="Code Collective" style="display:block;border:0;font-family:${font};font-size:14px;font-weight:600;color:#1c1917;"></a>
+</td></tr>
+</table>
+</td></tr>
+</table>
+</body></html>`;
 }

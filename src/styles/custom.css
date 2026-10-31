@@ -11,7 +11,9 @@
   --td-radius: 12px;
   --td-shadow: 0 1px 2px rgb(28 25 23 / 0.04), 0 8px 24px -12px rgb(28 25 23 / 0.12);
 
-  --sl-font: 'Inter Variable', ui-sans-serif, system-ui, -apple-system, 'Segoe UI', sans-serif;
+  --sl-font: 'Source Sans 3 Variable', ui-sans-serif, system-ui, -apple-system, 'Segoe UI', sans-serif;
+  --sl-font-mono: 'JetBrains Mono Variable', ui-monospace, SFMono-Regular, Menlo, monospace;
+  --td-display: 'Plus Jakarta Sans Variable', var(--sl-font);
   --sl-nav-height: 3.75rem;
   --sl-sidebar-width: 17rem;
   --sl-content-width: 46rem;
@@ -60,7 +62,6 @@
 }
 
 body {
-  font-feature-settings: 'cv11', 'ss01', 'ss03';
   -webkit-font-smoothing: antialiased;
   text-rendering: optimizeLegibility;
 }
@@ -651,3 +652,19 @@ starlight-toc a[aria-current='true'] { color: var(--td-accent) !important; font-
 .td-form__status.is-error { color: #b91c1c; }
 :root[data-theme='dark'] .td-form__status.is-success { color: #4ade80; }
 :root[data-theme='dark'] .td-form__status.is-error { color: #f87171; }
+
+/* ---------- Type: Plus Jakarta Sans for headings and UI labels (matches codecollective.io), Source Sans 3 for reading */
+body { font-size: 1.0625rem; }
+.sl-markdown-content { font-size: 1.0625rem; line-height: 1.7; }
+:is(.td-title h1, .td-hero h1, .sl-markdown-content :is(h2, h3, h4), .td-card strong, .td-preset strong, .td-help strong,
+  .td-header__title .site-title span, .td-tabs a, .td-btn, .td-title__eyebrow, .td-section-label, .td-product,
+  .sl-link-card .title, starlight-toc h2, .sidebar-content details > summary span.large, .td-form label > span) {
+  font-family: var(--td-display);
+}
+.td-title h1 { letter-spacing: -0.025em; font-weight: 700; }
+.td-hero h1 { letter-spacing: -0.035em; font-weight: 700; }
+.sl-markdown-content :is(h2, h3) { font-weight: 650; letter-spacing: -0.02em; }
+.sl-markdown-content table { font-size: 0.9375rem; }
+.sl-markdown-content th { font-family: var(--td-display); font-size: 0.6875rem; }
+.sidebar-content a { font-size: 0.9375rem !important; }
+.td-title__lede { font-size: 1.1875rem; }
