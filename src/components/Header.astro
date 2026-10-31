@@ -29,3 +29,25 @@ const first = inTandem ? parts[1] : parts[0];
   </div>
   {hasSidebar && <div class="td-header__menu print:hidden"><MobileMenuToggle /></div>}
 </div>
+
+<script>
+  // Search dialog: let the close animation play before the dialog closes.
+  // Browsers without transition support for <dialog> would otherwise snap shut.
+  const reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)');
+  const dialog = document.querySelector<HTMLDialogElement>('site-search dialog');
+  if (dialog) {
+    const close = dialog.close.bind(dialog);
+    dialog.close = (value?: string) => {
+      if (reduceMotion.matches || !dialog.open || dialog.hasAttribute('data-closing')) return close(value);
+      dialog.setAttribute('data-closing', '');
+      window.setTimeout(() => {
+        dialog.removeAttribute('data-closing');
+        close(value);
+      }, 180);
+    };
+    dialog.addEventListener('cancel', (event) => {
+      event.preventDefault();
+      dialog.close();
+    });
+  }
+</script>

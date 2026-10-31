@@ -717,3 +717,49 @@ body { font-size: 1.0625rem; }
 .td-req { margin-left: 0.2rem; color: var(--td-accent); font-weight: 700; }
 .td-form__note { margin: 0 0 0 auto; font-size: 0.8125rem; color: var(--td-faint); }
 .td-form :is(input, textarea):user-invalid { border-color: #dc2626; }
+
+/* ---------- Motion: search dialog, mobile menu, sidebar groups */
+@media (prefers-reduced-motion: no-preference) {
+  site-search dialog[open] { animation: td-dialog-in 220ms cubic-bezier(0.2, 0.8, 0.2, 1) both; }
+  site-search dialog[open]::backdrop { animation: td-backdrop-in 220ms ease-out both; }
+  site-search dialog[data-closing] { animation: td-dialog-out 180ms ease-in both; }
+  site-search dialog[data-closing]::backdrop { animation: td-backdrop-out 180ms ease-in both; }
+
+  @media (max-width: 50rem) {
+    #starlight__sidebar {
+      opacity: 0;
+      transform: translateY(-0.5rem);
+      transition: opacity 200ms ease, transform 240ms cubic-bezier(0.2, 0.8, 0.2, 1), visibility 0s linear 240ms;
+    }
+    body[data-mobile-menu-expanded] #starlight__sidebar {
+      opacity: 1;
+      transform: none;
+      transition-delay: 0s;
+    }
+  }
+
+  :root { interpolate-size: allow-keywords; }
+  .sidebar-content details::details-content {
+    block-size: 0;
+    overflow-y: clip;
+    transition: block-size 220ms ease, content-visibility 220ms allow-discrete;
+  }
+  .sidebar-content details[open]::details-content { block-size: auto; }
+}
+
+site-search dialog::backdrop { background-color: rgb(28 25 23 / 0.28); -webkit-backdrop-filter: blur(4px); backdrop-filter: blur(4px); }
+:root[data-theme='dark'] site-search dialog::backdrop { background-color: rgb(0 0 0 / 0.6); }
+@media (min-width: 50rem) {
+  site-search dialog { border-radius: 16px !important; border: 1px solid var(--td-line) !important; box-shadow: 0 24px 64px -16px rgb(28 25 23 / 0.35); }
+}
+
+@keyframes td-dialog-in {
+  from { opacity: 0; transform: translateY(-0.75rem) scale(0.97); }
+  to { opacity: 1; transform: none; }
+}
+@keyframes td-dialog-out {
+  from { opacity: 1; transform: none; }
+  to { opacity: 0; transform: translateY(-0.5rem) scale(0.98); }
+}
+@keyframes td-backdrop-in { from { opacity: 0; } to { opacity: 1; } }
+@keyframes td-backdrop-out { from { opacity: 1; } to { opacity: 0; } }
