@@ -12,7 +12,7 @@ const inTandem = parts[0] === 'tandem';
 const first = inTandem ? parts[1] : parts[0];
 ---
 
-<div class="td-header">
+<div class:list={["td-header", { "td-header--product": inTandem }]}>
   <div class="td-header__title">
     <SiteTitle />
     {inTandem && <a class="td-product" href="/tandem/">Tandem</a>}

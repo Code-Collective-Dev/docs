@@ -137,9 +137,16 @@ header[class*='fixed'] {
 }
 
 @media (max-width: 50rem) {
+  .td-header { gap: 0.25rem; }
+  .td-header__title { margin-right: auto; }
   .td-header__search { width: auto; }
-  .td-header__icons { display: none; }
+  .td-header__icons { gap: 0; }
   .td-header__menu { display: flex; }
+}
+
+/* Narrow phones: keep the mark and product label, drop the company name. */
+@media (max-width: 26rem) {
+  .td-header--product .td-header__title .site-title span { display: none; }
 }
 
 /* ---------- Sidebar */
