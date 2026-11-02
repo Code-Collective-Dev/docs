@@ -33,10 +33,18 @@ import { SUPPORT_ENDPOINT } from '../site.mjs';
     <span>What's happening?<b class="td-req" aria-hidden="true">*</b></span>
     <textarea name="message" rows="7" required placeholder="What you expected, what happened instead, and which page or section it's on."></textarea>
   </label>
-  <label class="td-form__file">
-    <span>Screenshots <em>Optional, up to 5 files, 10 MB in total</em></span>
-    <input name="screenshots" type="file" multiple accept="image/*,video/mp4,video/quicktime,video/webm,application/pdf" />
-  </label>
+  <div class="td-form__file">
+    <span class="td-form__label" id="screenshots-label">Screenshots <em>Optional, up to 5 files, 10 MB in total</em></span>
+    <label class="td-upload">
+      <input class="td-upload__input" name="screenshots" type="file" multiple accept="image/*,video/mp4,video/quicktime,video/webm,application/pdf" aria-labelledby="screenshots-label" />
+      <span class="td-upload__button">
+        <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><path d="m17 8-5-5-5 5"/><path d="M12 3v12"/></svg>
+        <span class="td-upload__text">Add screenshots</span>
+      </span>
+      <span class="td-upload__hint">PNG, JPG, GIF, MP4 or PDF</span>
+    </label>
+    <ul class="td-upload__list" aria-live="polite"></ul>
+  </div>
   <label class="td-form__trap" aria-hidden="true">
     <span>Leave this empty</span>
     <input name="website_url" type="text" tabindex="-1" autocomplete="off" />
@@ -55,6 +63,71 @@ import { SUPPORT_ENDPOINT } from '../site.mjs';
     const status = form.querySelector<HTMLElement>('.td-form__status')!;
     const button = form.querySelector<HTMLButtonElement>('button[type="submit"]')!;
     form.querySelector<HTMLInputElement>('[name="started"]')!.value = String(Date.now());
+
+    // Custom file picker: show feedback while the system dialog opens, then list the chosen files.
+    const fileInput = form.querySelector<HTMLInputElement>('.td-upload__input')!;
+    const upload = form.querySelector<HTMLElement>('.td-upload')!;
+    const uploadText = form.querySelector<HTMLElement>('.td-upload__text')!;
+    const list = form.querySelector<HTMLUListElement>('.td-upload__list')!;
+    const formatSize = (bytes: number) => (bytes > 1048576 ? `${(bytes / 1048576).toFixed(1)} MB` : `${Math.max(1, Math.round(bytes / 1024))} KB`);
+    const settle = () => {
+      upload.classList.remove('is-opening');
+      uploadText.textContent = fileInput.files?.length ? 'Add more' : 'Add screenshots';
+    };
+    const renderFiles = () => {
+      list.replaceChildren();
+      Array.from(fileInput.files || []).forEach((file, index) => {
+        const item = document.createElement('li');
+        const name = document.createElement('span');
+        name.className = 'td-upload__name';
+        name.textContent = file.name;
+        const size = document.createElement('span');
+        size.className = 'td-upload__size';
+        size.textContent = formatSize(file.size);
+        const remove = document.createElement('button');
+        remove.type = 'button';
+        remove.className = 'td-upload__remove';
+        remove.setAttribute('aria-label', `Remove ${file.name}`);
+        remove.textContent = '×';
+        remove.addEventListener('click', () => {
+          const keep = new DataTransfer();
+          Array.from(fileInput.files || []).forEach((f, i) => { if (i !== index) keep.items.add(f); });
+          fileInput.files = keep.files;
+          kept = Array.from(keep.files);
+          renderFiles();
+          settle();
+        });
+        item.append(name, size, remove);
+        list.append(item);
+      });
+    };
+    fileInput.addEventListener('click', () => {
+      upload.classList.add('is-opening');
+      uploadText.textContent = 'Opening files...';
+      // The dialog takes focus away; settle once the page has focus again.
+      window.addEventListener('focus', () => window.setTimeout(settle, 300), { once: true });
+    });
+    // Picking again adds to the list instead of replacing it.
+    let kept: File[] = [];
+    fileInput.addEventListener('cancel', () => {
+      const keep = new DataTransfer();
+      kept.forEach((f) => keep.items.add(f));
+      fileInput.files = keep.files;
+      settle();
+    });
+    fileInput.addEventListener('change', () => {
+      const merged = new DataTransfer();
+      const seen = new Set<string>();
+      [...kept, ...Array.from(fileInput.files || [])].forEach((f) => {
+        const key = `${f.name}:${f.size}`;
+        if (!seen.has(key)) { seen.add(key); merged.items.add(f); }
+      });
+      fileInput.files = merged.files;
+      kept = Array.from(merged.files);
+      renderFiles();
+      settle();
+    });
+    form.addEventListener('reset', () => window.setTimeout(() => { kept = []; renderFiles(); settle(); }));
 
     form.addEventListener('submit', async (event) => {
       event.preventDefault();
